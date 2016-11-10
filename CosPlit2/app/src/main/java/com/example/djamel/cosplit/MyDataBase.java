@@ -41,8 +41,7 @@ public class MyDataBase extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES_Register = "CREATE TABLE " + TABLE_Register+ " (" +COLUMN_Register_ID +
             " INTEGER PRIMARY KEY AUTOINCREMENT," +
             " " + COLUMN_Register_First_NAME + " TEXT, " + COLUMN_Register_Last_Name + " TEXT," +COLUMN_Register_Email +
-            " TEXT, " + COLUMN_Register_Password  + " Text , "+ COLUMN_FK_House + " INTEGER NOT NULL,"+ "FOREIGN KEY ("+COLUMN_FK_House+")" +
-            " REFERENCES "+TABLE_House+"("+COLUMN_House_ID+"))";
+            " TEXT, " + COLUMN_Register_Password  + " Text , "+ COLUMN_FK_House + " INTEGER NOT NULL)";
     private static final String SQL_DELETE_ENTRIES_Register = "DROP TABLE IF EXISTS " + TABLE_Register;
 
     public MyDataBase(Context context) {
@@ -106,4 +105,16 @@ public class MyDataBase extends SQLiteOpenHelper {
         return  res;
 
     }
+
+    //fonction pour afficher le house id
+    public int getlastid(){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor resultset = db.rawQuery("Select * from "+TABLE_House,null);
+        resultset.moveToLast();
+        int idhouse = resultset.getInt(0);
+        return idhouse;
+
+    }
+
 }

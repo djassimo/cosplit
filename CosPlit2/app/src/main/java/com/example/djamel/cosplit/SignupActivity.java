@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,11 +20,12 @@ import java.util.Random;
  */
 
 public class SignupActivity extends AppCompatActivity {
-
+public final static String EXTRA_MESSAGE = "com.example.djamel.cosplit";
     MyDataBase db;
     EditText Editname;
     int generatedcode;
     Button btnInsert;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,42 +50,37 @@ public class SignupActivity extends AppCompatActivity {
 
             r= (10000+ resultat.nextInt(899999));
             return r;
-
-
         }
+
 
     //fonction pour création house et insertion dans la base de données
     public void sendviewRegister() {
 
         btnInsert.setOnClickListener(
 
-                new View.OnClickListener()
-                {
+                new View.OnClickListener() {
 
                     @Override
-                    public void onClick (View v)
-                    {
+                    public void onClick(View v) {
                         //appel de fonction insertion
                         boolean isInserted = db.insertdata(
                                 Editname.getText().toString(),
                                 generatedcode);
 
-                        if(isInserted)
-                        {
+
+                        if (isInserted) {
                             //affichage d"activity de Register
-                            Intent intent = new Intent(v.getContext(),RegisterPage.class);
+                            Toast.makeText(SignupActivity.this, "The House is Created", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(SignupActivity.this, RegisterPage.class);
                             startActivity(intent);
-                        }
-                        else
+                        } else
                             //message pour remplir le nom de la maison
-                            Toast.makeText(SignupActivity.this,"Please type in your house name",Toast.LENGTH_LONG).show();
+                            Toast.makeText(SignupActivity.this, "Please type in your house name", Toast.LENGTH_LONG).show();
 
                     }
                 }
         );
-
-
-
+    }
 
     }
-}
+
