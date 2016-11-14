@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MyDataBase extends SQLiteOpenHelper {
 
     //creation de base de données
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "MyDataBase.db";
     //Table House
     public static final String TABLE_House = "House";
@@ -41,7 +41,7 @@ public class MyDataBase extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES_Register = "CREATE TABLE " + TABLE_Register+ " (" +COLUMN_Register_ID +
             " INTEGER PRIMARY KEY AUTOINCREMENT," +
             " " + COLUMN_Register_First_NAME + " TEXT, " + COLUMN_Register_Last_Name + " TEXT," +COLUMN_Register_Email +
-            " TEXT, " + COLUMN_Register_Password  + " Text , "+ COLUMN_FK_House + " INTEGER NOT NULL)";
+            " TEXT, " + COLUMN_Register_Password  + " Text , "+ COLUMN_FK_House + " TEXT"+")";
     private static final String SQL_DELETE_ENTRIES_Register = "DROP TABLE IF EXISTS " + TABLE_Register;
 
     public MyDataBase(Context context) {
@@ -88,6 +88,7 @@ public class MyDataBase extends SQLiteOpenHelper {
         contentvalues.put(COLUMN_Register_Email,email);
         contentvalues.put(COLUMN_Register_Password,password);
         contentvalues.put(COLUMN_FK_House,idhouse);
+
         long result = db.insert(TABLE_Register,null,contentvalues);
         if (result == -1)
 
@@ -96,25 +97,26 @@ public class MyDataBase extends SQLiteOpenHelper {
             return true;
     }
 
-    //affichage de donnée
-    public Cursor Afficher()
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        //cursor class random read write access
-        Cursor res =  db.rawQuery("select * from "+TABLE_House,null);
-        return  res;
 
-    }
 
     //fonction pour afficher le house id
-    public int getlastid(){
+   public int getlastid(){
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor resultset = db.rawQuery("Select * from "+TABLE_House,null);
         resultset.moveToLast();
         int idhouse = resultset.getInt(0);
         return idhouse;
-
     }
+    //fonction pour afficher le house id
+    public int getlastidRegister(){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor resultset = db.rawQuery("Select * from "+TABLE_Register,null);
+        resultset.moveToLast();
+        int idRegister = resultset.getInt(0);
+        return idRegister;
+    }
+
 
 }

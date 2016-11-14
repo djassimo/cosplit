@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainPage extends AppCompatActivity
 
@@ -23,8 +24,8 @@ public class MainPage extends AppCompatActivity
 
     }
     public void sendMessage(View view) {
-
-        Intent intent = new Intent(this, SignupActivity.class);
+        //Toast.makeText(MainPage.this,"idregister,nnnn:",Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(MainPage.this, SignupActivity.class);
 
         startActivity(intent);
 

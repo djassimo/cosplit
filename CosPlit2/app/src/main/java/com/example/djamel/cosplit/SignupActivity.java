@@ -1,6 +1,7 @@
 package com.example.djamel.cosplit;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
@@ -20,34 +21,38 @@ import java.util.Random;
  */
 
 public class SignupActivity extends AppCompatActivity {
-public final static String EXTRA_MESSAGE = "com.example.djamel.cosplit";
+
+    public final static String EXTRA_MESSAGE = "com.example.djamel.cosplit";
     MyDataBase db;
     EditText Editname;
-    int generatedcode;
+    int generatedcode,id;
     Button btnInsert;
 
-
     protected void onCreate(Bundle savedInstanceState) {
+        db =new MyDataBase(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity_page);
 
-        db =new MyDataBase(this);
+        //récuperer l"id de house
+      id =db.getlastid();
 
+        //recuperation des champs saisie dans la page signup_activity_page.xml
         Editname=(EditText) findViewById(R.id.Name);
         btnInsert=(Button)findViewById(R.id.sendregister);
+
+        //generate de code de housse
         generatedcode=generatecode();
+
+        //Appel a la fonction d'insertion de données dans la base données
         sendviewRegister();
-
-
     }
+
     //fonction de generation de code aléatoire de 6 chiffre
     public int generatecode()
         {
             int r;
             Random resultat;
-
             resultat= new Random();
-
             r= (10000+ resultat.nextInt(899999));
             return r;
         }
@@ -67,20 +72,25 @@ public final static String EXTRA_MESSAGE = "com.example.djamel.cosplit";
                                 Editname.getText().toString(),
                                 generatedcode);
 
-
+                        //vérification de l'insertion dans la base de données
                         if (isInserted) {
-                            //affichage d"activity de Register
+
+                            //affichage d"activity de RegisterPage et passage de id de register vers l'activity RegisterPage
                             Toast.makeText(SignupActivity.this, "The House is Created", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(SignupActivity.this, RegisterPage.class);
+                           intent.putExtra(EXTRA_MESSAGE,id);
                             startActivity(intent);
+
                         } else
-                            //message pour remplir le nom de la maison
+
+                            //message s"il y a un echec d'insertion
                             Toast.makeText(SignupActivity.this, "Please type in your house name", Toast.LENGTH_LONG).show();
 
                     }
                 }
         );
     }
+
 
     }
 

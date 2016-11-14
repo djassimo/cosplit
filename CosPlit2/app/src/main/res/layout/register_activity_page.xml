@@ -47,29 +47,50 @@
         android:layout_alignLeft="@+id/textView2"
         android:layout_alignStart="@+id/textView2" />
 
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="35dp"
+        android:id="@+id/sendregister"
+        android:onClick="sendviewRegister"
+        android:layout_below="@+id/textView5"
+        android:layout_centerHorizontal="true" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="Name"
         android:ems="10"
-        android:id="@+id/Name1"
-        android:layout_alignBaseline="@+id/textView3"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_toRightOf="@+id/textView4"
-        android:layout_toEndOf="@+id/textView4" />
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/sendregister"
+        android:layout_alignStart="@+id/sendregister"
+        android:id="@+id/Name1" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="last Name"
+        android:ems="10"
+        android:layout_above="@+id/textView4"
+        android:layout_alignLeft="@+id/Name1"
+        android:layout_alignStart="@+id/Name1"
+        android:id="@+id/Name2" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:layout_below="@+id/Name2"
-        android:layout_toRightOf="@+id/textView4"
-        android:layout_toEndOf="@+id/textView4"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="42dp"
+        android:text="Email"
+        android:layout_above="@+id/Name4"
+        android:layout_alignLeft="@+id/Name2"
+        android:layout_alignStart="@+id/Name2"
+        android:layout_marginBottom="18dp"
         android:id="@+id/Name3" />
 
     <EditText
@@ -77,31 +98,10 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/Name2"
-        android:layout_alignEnd="@+id/Name2"
+        android:text="Password"
+        android:layout_above="@+id/sendregister"
+        android:layout_alignLeft="@+id/sendregister"
+        android:layout_alignStart="@+id/sendregister"
         android:id="@+id/Name4" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Firs Name"
-        android:ems="10"
-        android:id="@+id/Name2"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignLeft="@+id/Name3"
-        android:layout_alignStart="@+id/Name3" />
-
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Name4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:id="@+id/sendregister"
-        android:onClick="sendviewRegister"/>
 
 </RelativeLayout>

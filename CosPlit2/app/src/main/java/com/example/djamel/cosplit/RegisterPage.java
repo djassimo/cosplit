@@ -16,37 +16,40 @@ import android.widget.EditText;
 
 public class RegisterPage extends AppCompatActivity {
 
+    public final static String EXTRA_MESSAGE = "com.example.djamel.cosplit";
     MyDataBase db;
-    int id;
-
+    int id,idregister;
     EditText Editname1,Editname2,Editname3,Editname4;
     Button btnInsert1;
+
     protected void onCreate(Bundle savedInstanceState) {
         db =new MyDataBase(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity_page);
-        id = db.getlastid();
-        Toast.makeText(RegisterPage.this, "Please type in your house name:"+id, Toast.LENGTH_LONG).show();
-        System.out.print("id hello:"+id);
 
+        //récuperer l"id de register
+       idregister = db.getlastidRegister();
+        //Toast.makeText(RegisterPage.this, "Please type in your house name:"+id, Toast.LENGTH_LONG).show();
+        //System.out.print("id hello:"+id);
 
+        //recuperation de id house passé de l'activity SignupActivity
+        Intent intent = getIntent();
+        id = intent.getIntExtra(SignupActivity.EXTRA_MESSAGE,0);
+        Toast.makeText(RegisterPage.this,"idhouse:"+id,Toast.LENGTH_LONG).show();
 
+        //recuperation des champs saisie dans la page register_activity_page.xml
         Editname1=(EditText) findViewById(R.id.Name1);
         Editname2=(EditText) findViewById(R.id.Name2);
         Editname3=(EditText) findViewById(R.id.Name3);
         Editname4=(EditText) findViewById(R.id.Name4);
         btnInsert1=(Button)findViewById(R.id.sendregister);
 
-
-
-
+        //Appel a la fonction d'insertion de données dans la base données
         sendviewRegister();
-
-
          }
 
-    //fonction pour création house et insertion dans la base de données:
+    //fonction pour création Register et insertion dans la base de données:
     public void sendviewRegister() {
 
         btnInsert1.setOnClickListener(
@@ -64,17 +67,18 @@ public class RegisterPage extends AppCompatActivity {
                                 Editname3.getText().toString(),
                                 Editname4.getText().toString(),
                                 id);
-
+                        //vérification de l'insertion dans la base de données
                         if(isInserted)
                         {
-                            //affichage d"activity de Register
-                            //Intent intent = new Intent(v.getContext(),RegisterPage.class);
-                            //startActivity(intent);
-                            Toast.makeText(RegisterPage.this,"The register is created",Toast.LENGTH_LONG).show();
+                            //affichage d"activity de Homepage et passage de id de register vers l'activity HomePage
+                            Intent it = new Intent(RegisterPage.this, HomePage.class);
+                            it.putExtra(EXTRA_MESSAGE,idregister);
+                            startActivity(it);
+
                         }
                         else
-                            //message pour remplir le nom de la maison
-                            Toast.makeText(RegisterPage.this,"noooooooooooo",Toast.LENGTH_LONG).show();
+                            //message s"il y a un echec d'insertion
+                            Toast.makeText(RegisterPage.this,"The register is not created",Toast.LENGTH_LONG).show();
 
                     }
                 }
