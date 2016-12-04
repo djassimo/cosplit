@@ -11,6 +11,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessCollection;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 
 import java.util.Iterator;
 
@@ -18,14 +19,14 @@ import java.util.Iterator;
 public class MemberCode extends AppCompatActivity {
 
     EditText Editname1;
-    Button btnInsert1;
+    BootstrapButton btnInsert1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_code);
         Editname1=(EditText) findViewById(R.id.Name2);
-        btnInsert1=(Button)findViewById(R.id.sendcode);
+        btnInsert1=(BootstrapButton)findViewById(R.id.sendcode);
         sendviewRegister();
     }
 

@@ -19,6 +19,7 @@ import com.backendless.BackendlessCollection;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -32,7 +33,7 @@ public class SignupActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.example.djamel.cosplit";
 
     EditText Editname;
-    Button btnInsert;
+    BootstrapButton btnInsert;
     String message;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class SignupActivity extends AppCompatActivity {
 
         //recuperation des champs saisie dans la page signup_activity_page.xml
 
-        btnInsert=(Button)findViewById(R.id.sendregister);
+        btnInsert=(BootstrapButton)findViewById(R.id.sendregister);
 
 
 

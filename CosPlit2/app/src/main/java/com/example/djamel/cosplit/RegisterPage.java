@@ -15,6 +15,7 @@ import android.widget.EditText;
     import com.backendless.async.callback.AsyncCallback;
     import com.backendless.async.callback.BackendlessCallback;
     import com.backendless.exceptions.BackendlessFault;
+    import com.beardedhen.androidbootstrap.BootstrapButton;
 
     import java.util.Random;
 
@@ -26,7 +27,7 @@ public class RegisterPage extends AppCompatActivity {
     int code;
     String nomhouse;
     EditText Editname1,Editname2,Editname3,Editname4;
-    Button btnInsert1;
+    BootstrapButton btnInsert1;
 
 
     // nouvelle modification
@@ -61,7 +62,7 @@ public class RegisterPage extends AppCompatActivity {
         Editname2=(EditText) findViewById(R.id.Name2);
         Editname3=(EditText) findViewById(R.id.Name3);
         Editname4=(EditText) findViewById(R.id.Name4);
-        btnInsert1=(Button)findViewById(R.id.sendregister);
+        btnInsert1=(BootstrapButton)findViewById(R.id.sendregister);
         sendviewRegister();
 
          }

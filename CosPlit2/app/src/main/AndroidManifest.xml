@@ -22,7 +22,9 @@
         <activity android:name=".RegisterPage" />
         <activity android:name=".HomePage" />
         <activity android:name=".MemberRegister" />
-        <activity android:name=".MemberCode"></activity>
+        <activity android:name=".MemberCode"/>
+        <activity android:name=".LoginMember">
+        </activity>
     </application>
 
 </manifest>
