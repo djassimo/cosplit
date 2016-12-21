@@ -15,7 +15,9 @@ import android.widget.EditText;
     import com.backendless.async.callback.AsyncCallback;
     import com.backendless.async.callback.BackendlessCallback;
     import com.backendless.exceptions.BackendlessFault;
+    import com.backendless.persistence.BackendlessSerializer;
     import com.beardedhen.androidbootstrap.BootstrapButton;
+    import com.beardedhen.androidbootstrap.TypefaceProvider;
 
     import java.util.Random;
 
@@ -23,12 +25,13 @@ import android.widget.EditText;
 
 public class RegisterPage extends AppCompatActivity {
 
-    public final static String EXTRA_MESSAGE = "com.example.djamel.cosplit";
+
+
     int code;
-    String nomhouse;
+    String nomhouse,admin;
     EditText Editname1,Editname2,Editname3,Editname4;
     BootstrapButton btnInsert1;
-
+    BackendlessUser backendlessUser = new BackendlessUser();
 
     // nouvelle modification
     public static final String APP_ID = "96BF9E34-383E-89AC-FFCC-8031E93B2400";
@@ -46,8 +49,8 @@ public class RegisterPage extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
+        TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.register_activity_page);
 
         Backendless.initApp( this, APP_ID, SECRET_KEY, VERSION);
@@ -62,7 +65,7 @@ public class RegisterPage extends AppCompatActivity {
         Editname2=(EditText) findViewById(R.id.Name2);
         Editname3=(EditText) findViewById(R.id.Name3);
         Editname4=(EditText) findViewById(R.id.Name4);
-        btnInsert1=(BootstrapButton)findViewById(R.id.sendregister);
+        btnInsert1=(BootstrapButton) findViewById(R.id.sendregister);
         sendviewRegister();
 
          }
@@ -86,21 +89,54 @@ public class RegisterPage extends AppCompatActivity {
                         String prenom = Editname2.getText().toString();
                         String email = Editname3.getText().toString();
                         String password = Editname4.getText().toString();
+                        admin = "isadmin";
 
 
-                        BackendlessUser backendlessUser = new BackendlessUser();
                         backendlessUser.setPassword(password);
                         backendlessUser.setProperty("name",nom);
-                        backendlessUser.setProperty("lastname",prenom);
                         backendlessUser.setEmail(email);
+                        backendlessUser.setProperty("lastname",prenom);
+                        backendlessUser.setProperty("role",admin);
+
                         //backendlessUser.setProperty("housename",nomhouse);
                         //backendlessUser.setProperty("code",code);
 
-                        Backendless.UserService.register(backendlessUser, new AsyncCallback<BackendlessUser>() {
+
+
+
+                        Backendless.UserService.register(backendlessUser, new AsyncCallback<BackendlessUser>()
+                        {
                             @Override
                             public void handleResponse(BackendlessUser response)
                             {
-                                //Toast.makeText(RegisterPage.this,"succes registration",Toast.LENGTH_LONG).show();
+                                //récupération idobject et l"insertion dans la table Tablecode
+                                BackendlessSerializer.serializeUserProperties(backendlessUser);
+                                String objectId =backendlessUser.getObjectId().toString();
+                                admin = backendlessUser.getProperty("role").toString();
+                                //Toast.makeText(RegisterPage.this, "ma masison est : "+nomhouse, Toast.LENGTH_SHORT).show();
+                                //affichage d"activity de Homepage et passage de id de register vers l'activity HomePage
+
+
+                                //Toast.makeText(RegisterPage.this, "idobject est : "+name, Toast.LENGTH_SHORT).show();
+                                Backendless.Persistence.save(new TableCode (code , nomhouse,objectId), new BackendlessCallback<TableCode>( ) {
+
+                                    @Override
+                                    public void handleResponse(TableCode response) {
+                                        Intent it = new Intent(RegisterPage.this, HomePage.class);
+                                        //it.putExtra(EXTRA_MESSAGE,nomhouse);
+
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("role",admin);
+                                        bundle.putString("housename",nomhouse);
+                                        it.putExtras(bundle);
+                                        startActivity(it);
+                                    //    Toast.makeText(RegisterPage.this, "Contact sauvegardé : ", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                });
+
+
+
                             }
 
                             @Override
@@ -110,19 +146,6 @@ public class RegisterPage extends AppCompatActivity {
 
                             }
                         });
-                        Backendless.Persistence.save(new TableCode (code , nomhouse), new BackendlessCallback<TableCode>( ) {
-
-                            @Override
-                            public void handleResponse(TableCode response) {
-                                Toast.makeText(RegisterPage.this, "Contact sauvegardé : ", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-
-                            //affichage d"activity de Homepage et passage de id de register vers l'activity HomePage
-                            Intent it = new Intent(RegisterPage.this, HomePage.class);
-                            it.putExtra(EXTRA_MESSAGE,nomhouse);
-                            startActivity(it);
                     }
                 }
         );

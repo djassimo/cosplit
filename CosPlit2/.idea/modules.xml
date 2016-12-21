@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Android-Bootstrap/AndroidBootstrap/AndroidBootstrap.iml" filepath="$PROJECT_DIR$/Android-Bootstrap/AndroidBootstrap/AndroidBootstrap.iml" />
-      <module fileurl="file://$PROJECT_DIR$/CosPlit2.iml" filepath="$PROJECT_DIR$/CosPlit2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Android-Bootstrap/Android-Bootstrap/AndroidBootstrap/AndroidBootstrap.iml" filepath="$PROJECT_DIR$/Android-Bootstrap/Android-Bootstrap/AndroidBootstrap/AndroidBootstrap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CosPlit2 - Copie.iml" filepath="$PROJECT_DIR$/CosPlit2 - Copie.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Android-Bootstrap/android-bootstrap.iml" filepath="$PROJECT_DIR$/Android-Bootstrap/android-bootstrap.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Android-Bootstrap/sample/sample.iml" filepath="$PROJECT_DIR$/Android-Bootstrap/sample/sample.iml" />
     </modules>
   </component>
 </project>

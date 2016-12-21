@@ -9,4 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView6" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:text="Log Out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="117dp"
+        android:onClick="sendviewRegister"
+        android:id="@+id/button4"
+        android:layout_below="@+id/textView6"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -13,13 +13,16 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.async.callback.BackendlessCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessSerializer;
+import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 
 import static android.R.attr.data;
 
 public class MemberRegister extends AppCompatActivity {
     EditText Editname1,Editname2,Editname3,Editname4;
-    Button btnInsert1;
-
+    BootstrapButton btnInsert1;
+BackendlessUser backendlessUser = new BackendlessUser();
 
     public static final String APP_ID = "96BF9E34-383E-89AC-FFCC-8031E93B2400";
     public static final String SECRET_KEY = "279243A4-BDBD-317E-FFB9-BF9298751000";
@@ -28,6 +31,7 @@ public class MemberRegister extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.activity_member_register);
 
 
@@ -35,7 +39,8 @@ public class MemberRegister extends AppCompatActivity {
         Editname2=(EditText) findViewById(R.id.Name2);
         Editname3=(EditText) findViewById(R.id.Name3);
         Editname4=(EditText) findViewById(R.id.Name4);
-        btnInsert1=(Button)findViewById(R.id.sendregister);
+        btnInsert1=(BootstrapButton) findViewById(R.id.sendregister);
+
         sendviewRegister();
     }
     public void sendviewRegister() {
@@ -54,7 +59,7 @@ public class MemberRegister extends AppCompatActivity {
                         String password = Editname4.getText().toString();
 
 
-                        BackendlessUser backendlessUser = new BackendlessUser();
+                        //BackendlessUser backendlessUser = new BackendlessUser();
                         backendlessUser.setPassword(password);
                         backendlessUser.setProperty("name",nom);
                         backendlessUser.setProperty("lastname",prenom);
@@ -65,6 +70,8 @@ public class MemberRegister extends AppCompatActivity {
                             @Override
                             public void handleResponse(BackendlessUser response)
                             {
+                                BackendlessSerializer.serializeUserProperties(backendlessUser);
+                                String objectId =backendlessUser.getObjectId().toString();
                                 //Toast.makeText(RegisterPage.this,"succes registration",Toast.LENGTH_LONG).show();
                             }
 

@@ -20,6 +20,7 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -38,6 +39,7 @@ public class SignupActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.signup_activity_page);
 
         //récuperer l"id de house
@@ -45,7 +47,7 @@ public class SignupActivity extends AppCompatActivity {
 
         //recuperation des champs saisie dans la page signup_activity_page.xml
 
-        btnInsert=(BootstrapButton)findViewById(R.id.sendregister);
+        btnInsert=(BootstrapButton) findViewById(R.id.sendregister);
 
 
 
