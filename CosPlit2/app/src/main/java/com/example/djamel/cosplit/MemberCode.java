@@ -35,7 +35,7 @@ public class MemberCode extends AppCompatActivity {
     private  ProgressDialog progressBar;
     public ProgressDialog TempDialog;
     CountDownTimer CDT;
-
+    String user = "isuser",nommaison;
 
     private int progressBarStatus = 0;
     private Handler progressBarbHandler = new Handler();
@@ -46,6 +46,8 @@ public class MemberCode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.activity_member_code);
+
+        //initialisation de backendless
         Backendless.initApp(this, APP_ID, SECRET_KEY, VERSION);
         Editname1 = (EditText) findViewById(R.id.Name2);
         btnInsert1 = (BootstrapButton) findViewById(R.id.sendregister);
@@ -53,7 +55,7 @@ public class MemberCode extends AppCompatActivity {
         sendviewRegister();
 
     }
-
+//lors du clic sur le bouton physique de retour
     @Override
     public void onBackPressed() {
         Intent i = new Intent(MemberCode.this, MainPage.class);
@@ -77,19 +79,22 @@ public class MemberCode extends AppCompatActivity {
 
                                 Iterator<TableCode> iterator = tablecode.getCurrentPage().iterator();
 
-                                String nomm ="";
+                                nommaison ="";
+                                String IdHome = "";
 
                                     while (iterator.hasNext()) {
 
                                         TableCode tableCode = iterator.next();
 
                                         if (code1 == (tableCode.getCode())) {
-                                            nomm = tableCode.getNomhouse();
-                                            //Toast.makeText(MemberCode.this, "le bon code est la!!" + nomm, Toast.LENGTH_LONG).show();
+                                            nommaison = tableCode.getNomhouse();
+                                            IdHome = tableCode.getFk_admin();
+
+                                           // Toast.makeText(MemberCode.this, "le bon code est la!!" + nommaison, Toast.LENGTH_LONG).show();
                                             }
                                     }
 
-                                if(nomm.toString() !=""){
+                                if(nommaison.toString() !=""){
 
 
 
@@ -112,9 +117,15 @@ public class MemberCode extends AppCompatActivity {
                                         public void onFinish()
                                         {
                                             TempDialog.dismiss();
+
                                             Intent it = new Intent(MemberCode.this, MemberRegister.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("role",user);
+                                            bundle.putString("housename",nommaison);
+                                            bundle.putInt("code",code1);
+                                            it.putExtras(bundle);
                                             startActivity(it);
-                                            //Toast.makeText(MemberCode.this, "votre maison est  !!" + nomm, Toast.LENGTH_LONG).show();
+                                            //Toast.makeText(MemberCode.this, "votre maison est  !!" + nommaison, Toast.LENGTH_LONG).show();
                                         }
                                     }.start();
 

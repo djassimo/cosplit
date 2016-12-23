@@ -31,7 +31,7 @@ public class HomePage extends AppCompatActivity {
     public static final String SECRET_KEY = "279243A4-BDBD-317E-FFB9-BF9298751000";
     public static final String VERSION = "v1";
     BootstrapButton button2;
-    String curentuserid,codeid;
+    String curentuserid,codeid,message1,rolemsg;
 
     BackendlessUser backendlessUser = new BackendlessUser();
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +44,14 @@ public class HomePage extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        String message = bundle.getString("role");
-        String message1 = bundle.getString("housename");
+        rolemsg = bundle.getString("role");
+        message1 = bundle.getString("housename");
 
-        //Toast.makeText(HomePage.this,"role:"+message,Toast.LENGTH_LONG).show();
-        if(message.equalsIgnoreCase("isadmin")) {
+        //Toast.makeText(HomePage.this,"votre role est:"+" "+rolemsg,Toast.LENGTH_LONG).show();
+        //Toast.makeText(HomePage.this,"maison est  :"+message1,Toast.LENGTH_LONG).show();
+
+
+        if((message1!="")) {
 
             TextView textView = new TextView(HomePage.this);
             textView.setTextSize(40);
@@ -58,7 +61,7 @@ public class HomePage extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(HomePage.this,"role:",Toast.LENGTH_LONG).show();
+            //Toast.makeText(HomePage.this,"role:",Toast.LENGTH_LONG).show();
         }
 
 

@@ -20,9 +20,11 @@ import com.beardedhen.androidbootstrap.TypefaceProvider;
 import static android.R.attr.data;
 
 public class MemberRegister extends AppCompatActivity {
-    EditText Editname1,Editname2,Editname3,Editname4;
+    EditText Editname1, Editname2, Editname3, Editname4;
     BootstrapButton btnInsert1;
-BackendlessUser backendlessUser = new BackendlessUser();
+    String user ="isuser",message1,rolemsg;
+    int code1;
+    BackendlessUser backendlessUser = new BackendlessUser();
 
     public static final String APP_ID = "96BF9E34-383E-89AC-FFCC-8031E93B2400";
     public static final String SECRET_KEY = "279243A4-BDBD-317E-FFB9-BF9298751000";
@@ -34,25 +36,33 @@ BackendlessUser backendlessUser = new BackendlessUser();
         TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.activity_member_register);
 
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        rolemsg = bundle.getString("role");
+        message1 = bundle.getString("housename");
+        code1= bundle.getInt("code");
 
-        Editname1=(EditText) findViewById(R.id.Name1);
-        Editname2=(EditText) findViewById(R.id.Name2);
-        Editname3=(EditText) findViewById(R.id.Name3);
-        Editname4=(EditText) findViewById(R.id.Name4);
-        btnInsert1=(BootstrapButton) findViewById(R.id.sendregister);
+
+        //Toast.makeText(MemberRegister.this,"votre role reste tjrs"+rolemsg,Toast.LENGTH_LONG).show();
+        //Toast.makeText(MemberRegister.this,"maison importé"+message1,Toast.LENGTH_LONG).show();
+
+        Editname1 = (EditText) findViewById(R.id.Name1);
+        Editname2 = (EditText) findViewById(R.id.Name2);
+        Editname3 = (EditText) findViewById(R.id.Name3);
+        Editname4 = (EditText) findViewById(R.id.Name4);
+        btnInsert1 = (BootstrapButton) findViewById(R.id.sendregister);
 
         sendviewRegister();
     }
+
     public void sendviewRegister() {
 
         btnInsert1.setOnClickListener(
 
-                new View.OnClickListener()
-                {
+                new View.OnClickListener() {
 
                     @Override
-                    public void onClick (View v)
-                    {
+                    public void onClick(View v) {
                         String nom = Editname1.getText().toString();
                         String prenom = Editname2.getText().toString();
                         String email = Editname3.getText().toString();
@@ -61,36 +71,48 @@ BackendlessUser backendlessUser = new BackendlessUser();
 
                         //BackendlessUser backendlessUser = new BackendlessUser();
                         backendlessUser.setPassword(password);
-                        backendlessUser.setProperty("name",nom);
-                        backendlessUser.setProperty("lastname",prenom);
+                        backendlessUser.setProperty("name", nom);
+                        backendlessUser.setProperty("lastname", prenom);
                         backendlessUser.setEmail(email);
+                        backendlessUser.setProperty("role",user);
+
 
 
                         Backendless.UserService.register(backendlessUser, new AsyncCallback<BackendlessUser>() {
                             @Override
-                            public void handleResponse(BackendlessUser response)
-                            {
+                            public void handleResponse(BackendlessUser response) {
                                 BackendlessSerializer.serializeUserProperties(backendlessUser);
-                                String objectId =backendlessUser.getObjectId().toString();
-                                //Toast.makeText(RegisterPage.this,"succes registration",Toast.LENGTH_LONG).show();
+                                String objectId = backendlessUser.getObjectId().toString();
+                                //Toast.makeText(MemberRegister.this,"assurer role"+user,Toast.LENGTH_LONG).show();
+                                //Toast.makeText(MemberRegister.this,"assurer home"+" "+message1,Toast.LENGTH_LONG).show();
+                                Intent it = new Intent(MemberRegister.this, HomePage.class);
+                                //it.putExtra(EXTRA_MESSAGE,nomhouse);
+
+                                Backendless.Persistence.save(new TableCodeMaison (code1,objectId), new BackendlessCallback<TableCodeMaison>( ) {
+
+                                    @Override
+                                    public void handleResponse(TableCodeMaison response) {
+
+                                        //    Toast.makeText(RegisterPage.this, "Contact sauvegardé : ", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                });
+
+
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("role",user);
+                                bundle.putString("housename",message1);
+                                it.putExtras(bundle);
+                                startActivity(it);
                             }
 
                             @Override
-                            public void handleFault(BackendlessFault fault)
-                            {
+                            public void handleFault(BackendlessFault fault) {
                                 //Toast.makeText(RegisterPage.this,"error registration",Toast.LENGTH_LONG).show();
 
                             }
                         });
-                        //affichage d"activity de Homepage et passage de id de register vers l'activity HomePage
-                        /*
-                        Intent it = new Intent(RegisterPage.this, HomePage.class);
-                        it.putExtra(EXTRA_MESSAGE,nomhouse);
-                        startActivity(it);
-                        */
-
-
-
                     }
                 }
         );

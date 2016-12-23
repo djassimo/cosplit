@@ -27,6 +27,8 @@ public class LoginMember extends AppCompatActivity {
     public static final String VERSION = "v1";
     EditText Editname1, Editname2;
     BootstrapButton btnInsert1;
+    String nomhouse,idobj,rolenull="";
+    int codeHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +66,88 @@ public class LoginMember extends AppCompatActivity {
 
                         final String email = Editname1.getText().toString();
                         final String password = Editname2.getText().toString();
+                        String iduser;
 
                         Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                             @Override
                             public void handleResponse(BackendlessUser response) {
                                 BackendlessUser curentuser = Backendless.UserService.CurrentUser();
                                 if (curentuser != null) {
-                                    String idobj = curentuser.getObjectId();
+                                    idobj = curentuser.getObjectId();
+
                                 }
-                                Intent it = new Intent(LoginMember.this, HomePage.class);
-                                //it.putExtra(EXTRA_MESSAGE,nomhouse);
-                                startActivity(it);
-                                //Toast.makeText(LoginMember.this,"connecté !!",Toast.LENGTH_LONG).show();
+
+
+                                //parcourir la table TableCode pour recupererer les Id dans la table codemaison
+                                AsyncCallback<BackendlessCollection<TableCodeMaison>> callback = new AsyncCallback<BackendlessCollection<TableCodeMaison>>() {
+                                    @Override
+                                    public void handleResponse(BackendlessCollection<TableCodeMaison> response) {
+                                        Iterator<TableCodeMaison> iterator = response.getCurrentPage().iterator();
+
+
+                                        while (iterator.hasNext()) {
+
+
+                                            TableCodeMaison tableCode = iterator.next();
+                                            if(idobj.equals(tableCode.getIduser())){
+                                                codeHome = tableCode.getIdhouse();
+
+
+                                            }
+                                        }
+                                        AsyncCallback<BackendlessCollection<TableCode>> callback1 = new AsyncCallback<BackendlessCollection<TableCode>>() {
+                                            @Override
+                                            public void handleResponse(BackendlessCollection<TableCode> response) {
+                                                Iterator<TableCode> iterator = response.getCurrentPage().iterator();
+                                                // Toast.makeText(LoginMember.this, "le code home est !!"+codeHome, Toast.LENGTH_LONG).show();
+                                                // nomhouse="";
+                                                while (iterator.hasNext()) {
+
+
+                                                    TableCode tableCode = iterator.next();
+
+                                                    if (codeHome==(tableCode.getCode())) {
+                                                        nomhouse = tableCode.getNomhouse();
+
+                                                        //Toast.makeText(LoginMember.this, "nom maison!!"+nomhouse, Toast.LENGTH_LONG).show();
+
+                                                    }
+                                                    //Toast.makeText(LoginMember.this, "nom maison1!!"+nomhouse, Toast.LENGTH_LONG).show();
+                                                }
+
+                                        if (nomhouse.toString() != "") {
+                                            Intent it = new Intent(LoginMember.this, HomePage.class);
+
+                                            Toast.makeText(LoginMember.this, "nom maison2!!" + nomhouse, Toast.LENGTH_LONG).show();
+
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("role", rolenull);
+                                            bundle.putString("housename", nomhouse);
+                                            it.putExtras(bundle);
+                                            startActivity(it);
+
+                                        }
+                                            }
+
+                                            @Override
+                                            public void handleFault(BackendlessFault fault) {
+
+                                            }
+                                        };
+                                        Backendless.Data.of(TableCode.class).find(callback1);
+                                        Toast.makeText(LoginMember.this, "le code home aaa !!"+codeHome, Toast.LENGTH_LONG).show();
+                                    }
+
+                                    @Override
+                                    public void handleFault(BackendlessFault fault) {
+
+                                    }
+                                };
+                                Backendless.Data.of(TableCodeMaison.class).find(callback);
+
+
+
+
                             }
 
                             @Override

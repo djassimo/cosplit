@@ -11,6 +11,7 @@ import android.widget.EditText;
     import android.widget.Toast;
 
     import com.backendless.Backendless;
+    import com.backendless.BackendlessCollection;
     import com.backendless.BackendlessUser;
     import com.backendless.async.callback.AsyncCallback;
     import com.backendless.async.callback.BackendlessCallback;
@@ -19,15 +20,13 @@ import android.widget.EditText;
     import com.beardedhen.androidbootstrap.BootstrapButton;
     import com.beardedhen.androidbootstrap.TypefaceProvider;
 
+    import java.util.Iterator;
     import java.util.Random;
 
     import javax.xml.validation.Validator;
 
 public class RegisterPage extends AppCompatActivity {
-
-
-
-    int code;
+    int code,idhouse;
     String nomhouse,admin;
     EditText Editname1,Editname2,Editname3,Editname4;
     BootstrapButton btnInsert1;
@@ -112,9 +111,9 @@ public class RegisterPage extends AppCompatActivity {
                                 //récupération idobject et l"insertion dans la table Tablecode
                                 BackendlessSerializer.serializeUserProperties(backendlessUser);
                                 String objectId =backendlessUser.getObjectId().toString();
+
                                 admin = backendlessUser.getProperty("role").toString();
                                 //Toast.makeText(RegisterPage.this, "ma masison est : "+nomhouse, Toast.LENGTH_SHORT).show();
-                                //affichage d"activity de Homepage et passage de id de register vers l'activity HomePage
 
 
                                 //Toast.makeText(RegisterPage.this, "idobject est : "+name, Toast.LENGTH_SHORT).show();
@@ -122,6 +121,7 @@ public class RegisterPage extends AppCompatActivity {
 
                                     @Override
                                     public void handleResponse(TableCode response) {
+
                                         Intent it = new Intent(RegisterPage.this, HomePage.class);
                                         //it.putExtra(EXTRA_MESSAGE,nomhouse);
 
@@ -131,6 +131,16 @@ public class RegisterPage extends AppCompatActivity {
                                         it.putExtras(bundle);
                                         startActivity(it);
                                     //    Toast.makeText(RegisterPage.this, "Contact sauvegardé : ", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                });
+
+                                Backendless.Persistence.save(new TableCodeMaison (code,objectId), new BackendlessCallback<TableCodeMaison>( ) {
+
+                                    @Override
+                                    public void handleResponse(TableCodeMaison response) {
+
+                                        //    Toast.makeText(RegisterPage.this, "Contact sauvegardé : ", Toast.LENGTH_SHORT).show();
                                     }
 
                                 });
