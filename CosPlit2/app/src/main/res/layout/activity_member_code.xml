@@ -13,34 +13,43 @@
     tools:context="com.example.djamel.cosplit.MemberCode">
 
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        android:text="Join house"
+    <com.beardedhen.androidbootstrap.BootstrapEditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="Eg: 123456"
+        android:ems="11"
+        android:id="@+id/Name2"
+        app:showOutline="false"
+        app:roundedCorners="true"
+        app:bootstrapSize="lg"
+        app:bootstrapBrand="danger"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/view"
+        android:layout_centerHorizontal="true" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:text="Join house"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:id="@+id/sendregister"
-        android:width="200dp"
-        android:height="55dp"
         android:onClick="sendviewRegister"
         app:bootstrapBrand="success"
         app:bootstrapSize="lg"
         app:buttonMode="regular"
-        app:showOutline="false"
+        app:showOutline="true"
         app:roundedCorners="true"
         android:layout_below="@+id/Name2"
-        android:layout_alignLeft="@+id/Name2"
-        android:layout_alignStart="@+id/Name2"
-        android:layout_marginTop="55dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
 
-    <com.beardedhen.androidbootstrap.BootstrapEditText
+    <view
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Enter Code"
-        android:ems="10"
-        android:id="@+id/Name2"
-        app:bootstrapSize="lg"
-        app:bootstrapBrand="warning"
-        android:layout_marginTop="100dp"
+        android:text="Entrer le code reçu svp !!"
+        class="com.beardedhen.androidbootstrap.BootstrapLabel"
+        android:layout_marginTop="56dp"
+        android:id="@+id/view"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 

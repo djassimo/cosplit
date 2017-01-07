@@ -25,10 +25,6 @@ import com.beardedhen.androidbootstrap.TypefaceProvider;
 import java.util.Iterator;
 import java.util.Random;
 
-/**
- * Created by djamel on 31/10/2016.
- */
-
 public class SignupActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "com.example.djamel.cosplit";
@@ -42,23 +38,11 @@ public class SignupActivity extends AppCompatActivity {
         TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.signup_activity_page);
 
-        //récuperer l"id de house
-
-
         //recuperation des champs saisie dans la page signup_activity_page.xml
-
-        btnInsert=(BootstrapButton) findViewById(R.id.sendregister);
-
-
-
-        //Appel a la fonction d'insertion de données dans la base données
+        btnInsert = (BootstrapButton) findViewById(R.id.sendregister);
         sendviewRegister();
     }
 
-    //fonction de generation de code aléatoire de 6 chiffre
-
-
-    //fonction pour création house et insertion dans la base de données
     public void sendviewRegister() {
 
         btnInsert.setOnClickListener(
@@ -68,21 +52,17 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-
                         //affichage d"activity de RegisterPage et passage de id de register vers l'activity RegisterPage
-                            Toast.makeText(SignupActivity.this, "The House is "+message, Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(SignupActivity.this, RegisterPage.class);
-
-                            Editname=(EditText) findViewById(R.id.Name);
-                            message = Editname.getText().toString();
-
-                            intent.putExtra(EXTRA_MESSAGE,message);
-                            startActivity(intent);
+                        Editname = (EditText) findViewById(R.id.Name);
+                        message = Editname.getText().toString();
+                        Intent intent = new Intent(SignupActivity.this, RegisterPage.class);
+                        intent.putExtra(EXTRA_MESSAGE, message);
+                        startActivity(intent);
                     }
                 }
         );
     }
 
 
-    }
+}
 

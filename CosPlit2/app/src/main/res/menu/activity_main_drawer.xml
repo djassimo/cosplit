@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_ask_for_money"
+            android:icon="@drawable/ic_monetization_on_black_24dp"
+            android:title="Ask for money"
+            />
+        <item
+            android:id="@+id/nav_edit_profile"
+            android:icon="@drawable/ic_perm_identity_black_24dp"
+            android:title="Edit profile" />
+        <item
+            android:id="@+id/nav_transaction"
+            android:icon="@drawable/ic_timeline_black_24dp"
+            android:title="Transaction" />
+        <item
+            android:id="@+id/nav_log_out"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="Log out" />
+        <item
+            android:id="@+id/nav_add_cost"
+            android:icon="@drawable/ic_local_pharmacy_black_24dp"
+            android:title="Add Cost" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share the code with freinds" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>

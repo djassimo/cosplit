@@ -1,9 +1,12 @@
 package com.example.djamel.cosplit;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannedString;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,34 +28,32 @@ public class LoginMember extends AppCompatActivity {
     public static final String APP_ID = "96BF9E34-383E-89AC-FFCC-8031E93B2400";
     public static final String SECRET_KEY = "279243A4-BDBD-317E-FFB9-BF9298751000";
     public static final String VERSION = "v1";
+    public ProgressDialog TempDialog;
+    CountDownTimer CDT;
     EditText Editname1, Editname2;
     BootstrapButton btnInsert1;
-    String nomhouse,idobj,rolenull="";
-    int codeHome;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.login_member_page);
+
+        //verification de l'etat de connexion de l'utilisateur
+        if (Backendless.UserService.loggedInUser() == "") {
+            //Toast.makeText(MainPage.this,"imhere",Toast.LENGTH_LONG).show();
+        } else {
+            Intent intent = new Intent(LoginMember.this, HomePage.class);
+            startActivity(intent);
+        }
+
+        //saisi de mail et de mot passe
         Editname1 = (EditText) findViewById(R.id.Name1);
         Editname2 = (EditText) findViewById(R.id.Name2);
 
         btnInsert1 = (BootstrapButton) findViewById(R.id.registre);
         sendviewRegister();
-
-        if (Backendless.UserService.loggedInUser() == "") {
-            //Intent intent = new Intent(LoginMember.this, LoginMember.class);
-            //startActivity(intent);
-        } else {
-            Toast.makeText(LoginMember.this, "il faut que tu connecté toi !!", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent i = new Intent(LoginMember.this, MainPage.class);
-        startActivity(i);
     }
 
     public void sendviewRegister() {
@@ -63,96 +64,62 @@ public class LoginMember extends AppCompatActivity {
 
                     @Override
                     public void onClick(View v) {
-
+                        //recuperation des champs email et password de user
                         final String email = Editname1.getText().toString();
                         final String password = Editname2.getText().toString();
-                        String iduser;
 
+                        //verification des données saisi par l'utilisateur
                         Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
+
+
                             @Override
                             public void handleResponse(BackendlessUser response) {
-                                BackendlessUser curentuser = Backendless.UserService.CurrentUser();
-                                if (curentuser != null) {
-                                    idobj = curentuser.getObjectId();
-
-                                }
 
 
-                                //parcourir la table TableCode pour recupererer les Id dans la table codemaison
-                                AsyncCallback<BackendlessCollection<TableCodeMaison>> callback = new AsyncCallback<BackendlessCollection<TableCodeMaison>>() {
-                                    @Override
-                                    public void handleResponse(BackendlessCollection<TableCodeMaison> response) {
-                                        Iterator<TableCodeMaison> iterator = response.getCurrentPage().iterator();
+                                    TempDialog = new ProgressDialog(LoginMember.this);
+                                    //TempDialog.setMessage("Please wait...");
+                                    TempDialog.setCancelable(false);
+                                    TempDialog.setProgress(5);
+                                    TempDialog.show();
 
+                                    CDT = new CountDownTimer(5000, 1000) {
 
-                                        while (iterator.hasNext()) {
+                                        public void onTick(long millisUntilFinished) {
+                                            TempDialog.setMessage("Connexion en cours \n Please wait..");
 
-
-                                            TableCodeMaison tableCode = iterator.next();
-                                            if(idobj.equals(tableCode.getIduser())){
-                                                codeHome = tableCode.getIdhouse();
-
-
-                                            }
                                         }
-                                        AsyncCallback<BackendlessCollection<TableCode>> callback1 = new AsyncCallback<BackendlessCollection<TableCode>>() {
-                                            @Override
-                                            public void handleResponse(BackendlessCollection<TableCode> response) {
-                                                Iterator<TableCode> iterator = response.getCurrentPage().iterator();
-                                                // Toast.makeText(LoginMember.this, "le code home est !!"+codeHome, Toast.LENGTH_LONG).show();
-                                                // nomhouse="";
-                                                while (iterator.hasNext()) {
 
+                                        public void onFinish() {
+                                            TempDialog.dismiss();
 
-                                                    TableCode tableCode = iterator.next();
-
-                                                    if (codeHome==(tableCode.getCode())) {
-                                                        nomhouse = tableCode.getNomhouse();
-
-                                                        //Toast.makeText(LoginMember.this, "nom maison!!"+nomhouse, Toast.LENGTH_LONG).show();
-
-                                                    }
-                                                    //Toast.makeText(LoginMember.this, "nom maison1!!"+nomhouse, Toast.LENGTH_LONG).show();
-                                                }
-
-                                        if (nomhouse.toString() != "") {
                                             Intent it = new Intent(LoginMember.this, HomePage.class);
-
-                                            Toast.makeText(LoginMember.this, "nom maison2!!" + nomhouse, Toast.LENGTH_LONG).show();
-
-                                            Bundle bundle = new Bundle();
-                                            bundle.putString("role", rolenull);
-                                            bundle.putString("housename", nomhouse);
-                                            it.putExtras(bundle);
                                             startActivity(it);
-
+                                            //Toast.makeText(MemberCode.this, "votre maison est  !!" + nommaison, Toast.LENGTH_LONG).show();
                                         }
-                                            }
-
-                                            @Override
-                                            public void handleFault(BackendlessFault fault) {
-
-                                            }
-                                        };
-                                        Backendless.Data.of(TableCode.class).find(callback1);
-                                        Toast.makeText(LoginMember.this, "le code home aaa !!"+codeHome, Toast.LENGTH_LONG).show();
-                                    }
-
-                                    @Override
-                                    public void handleFault(BackendlessFault fault) {
-
-                                    }
-                                };
-                                Backendless.Data.of(TableCodeMaison.class).find(callback);
-
-
-
-
-                            }
+                                    }.start();
+                                }
 
                             @Override
                             public void handleFault(BackendlessFault fault) {
-                                Toast.makeText(LoginMember.this, "not loggin!!", Toast.LENGTH_LONG).show();
+                                TempDialog = new ProgressDialog(LoginMember.this);
+                                //TempDialog.setMessage("Please wait...");
+                                TempDialog.setCancelable(false);
+                                TempDialog.setProgress(5);
+                                TempDialog.show();
+
+                                CDT = new CountDownTimer(5000, 1000) {
+
+                                    public void onTick(long millisUntilFinished) {
+                                        TempDialog.setMessage("Connexion en cours \n Please wait..");
+
+                                    }
+
+                                    public void onFinish() {
+                                        TempDialog.dismiss();
+                                        Toast.makeText(LoginMember.this, "Verifie votre email ou mot de passe !!", Toast.LENGTH_LONG).show();
+                                    }
+                                }.start();
+                                //Toast.makeText(LoginMember.this, "not loggin!!", Toast.LENGTH_LONG).show();
                             }
                         }, true);
 

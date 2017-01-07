@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     style="@style/frag1TableLayout" >
+        <TableRow style="@style/frag1HeaderTableRow">
+            <TextView style="@style/frag1HeaderCol" android:text="Credit"/>
+            <TextView style="@style/frag1HeaderCol" android:text="Debit"/>
+        </TableRow>
+
+        <TableRow style="@style/frag1TableRow">
+            <TextView style="@style/frag1Col" android:text="124"/>
+            <TextView style="@style/frag1Col" android:text="-125"/>
+        </TableRow>
+
+        <TableRow style="@style/frag1TableRow">
+            <TextView style="@style/frag1Col" android:text="345"/>
+            <TextView style="@style/frag1Col" android:text="-120"/>
+        </TableRow>
+
+        <TableRow style="@style/frag1TableRow">
+            <TextView style="@style/frag1Col" android:text="245"/>
+            <TextView style="@style/frag1Col" android:text="-120"/>
+        </TableRow>
+    </TableLayout>

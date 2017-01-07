@@ -17,6 +17,7 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.BackendlessDataQuery;
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 
 import java.sql.RowId;
@@ -49,8 +50,16 @@ public class MemberCode extends AppCompatActivity {
 
         //initialisation de backendless
         Backendless.initApp(this, APP_ID, SECRET_KEY, VERSION);
-        Editname1 = (EditText) findViewById(R.id.Name2);
+        Editname1 = (BootstrapEditText) findViewById(R.id.Name2);
         btnInsert1 = (BootstrapButton) findViewById(R.id.sendregister);
+        if(Backendless.UserService.loggedInUser()=="")
+        {
+            //Toast.makeText(MainPage.this,"imhere",Toast.LENGTH_LONG).show();
+        }else
+        {
+            Intent intent = new Intent(MemberCode.this, HomePage.class);
+            startActivity(intent);
+        }
 
         sendviewRegister();
 
@@ -119,11 +128,6 @@ public class MemberCode extends AppCompatActivity {
                                             TempDialog.dismiss();
 
                                             Intent it = new Intent(MemberCode.this, MemberRegister.class);
-                                            Bundle bundle = new Bundle();
-                                            bundle.putString("role",user);
-                                            bundle.putString("housename",nommaison);
-                                            bundle.putInt("code",code1);
-                                            it.putExtras(bundle);
                                             startActivity(it);
                                             //Toast.makeText(MemberCode.this, "votre maison est  !!" + nommaison, Toast.LENGTH_LONG).show();
                                         }
@@ -147,11 +151,10 @@ public class MemberCode extends AppCompatActivity {
 
                                     }
 
-                                public void onFinish()
-                                {
-                                    TempDialog.dismiss();
-                                    Toast.makeText(MemberCode.this, "code FAUX !!", Toast.LENGTH_LONG).show();
-                                }
+                                        public void onFinish() {
+                                            TempDialog.dismiss();
+                                            Toast.makeText(MemberCode.this, "code FAUX !!", Toast.LENGTH_LONG).show();
+                                        }
                                 }.start();
 
 

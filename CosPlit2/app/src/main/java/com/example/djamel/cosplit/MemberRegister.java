@@ -36,6 +36,15 @@ public class MemberRegister extends AppCompatActivity {
         TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.activity_member_register);
 
+        if(Backendless.UserService.loggedInUser()=="")
+        {
+            //Toast.makeText(MainPage.this,"imhere",Toast.LENGTH_LONG).show();
+        }else
+        {
+            Intent intent = new Intent(MemberRegister.this, HomePage.class);
+            startActivity(intent);
+        }
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         rolemsg = bundle.getString("role");
@@ -99,12 +108,8 @@ public class MemberRegister extends AppCompatActivity {
                                 });
 
 
-
-                                Bundle bundle = new Bundle();
-                                bundle.putString("role",user);
-                                bundle.putString("housename",message1);
-                                it.putExtras(bundle);
-                                startActivity(it);
+                                Intent intent = new Intent(MemberRegister.this, LoginMember.class);
+                                startActivity(intent);
                             }
 
                             @Override

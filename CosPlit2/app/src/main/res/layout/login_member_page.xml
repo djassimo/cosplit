@@ -12,6 +12,51 @@
     android:id="@+id/login_member_page"
     tools:context="com.example.djamel.cosplit.LoginMember">
 
+    <com.beardedhen.androidbootstrap.BootstrapEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:id="@+id/Name1"
+        android:hint="email"
+        android:layout_marginTop="77dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="24sp"
+        app:showOutline="false"
+        app:roundedCorners="true"
+        app:bootstrapSize="lg"
+        app:bootstrapBrand="success"/>
+
+    <com.beardedhen.androidbootstrap.BootstrapEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/Name2"
+        android:hint="password"
+        android:inputType="textPassword"
+        android:layout_marginTop="17dp"
+        android:textSize="24sp"
+        android:layout_below="@+id/Name1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        app:roundedCorners="true"
+        app:bootstrapSize="lg"
+        app:bootstrapBrand="success"/>
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="com.beardedhen.androidbootstrap.BootstrapLabel"
+        android:layout_above="@+id/Name1"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/view2"
+        android:text="Conexion :"
+        android:textSize="34sp"
+        android:textStyle="normal|bold"
+        android:textAlignment="center"
+        android:elevation="1dp" />
+
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:text="Login"
         android:layout_width="wrap_content"
@@ -24,32 +69,19 @@
         app:roundedCorners="true"
         android:width="200dp"
         android:onClick="sendviewRegister"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="127dp" />
+        android:layout_marginTop="27dp"
+        android:layout_below="@+id/Name2"
+        android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:layout_width="match_parent"
+    <TextView
+        android:text="Connectez-vous"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/Name2"
-        android:hint="password"
-        android:inputType="textPassword"
-        android:layout_below="@+id/Name1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="27dp" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textAutoComplete|textNoSuggestions|textEmailAddress"
-        android:ems="10"
-        android:id="@+id/Name1"
-        android:hint="email"
-        android:layout_marginTop="29dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="17dp"
+        android:id="@+id/textView8"
+        android:textSize="34sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_below="@+id/view2"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -52,10 +52,16 @@ public class RegisterPage extends AppCompatActivity {
         TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.register_activity_page);
 
+        if(Backendless.UserService.loggedInUser()=="")
+        {
+            //Toast.makeText(MainPage.this,"imhere",Toast.LENGTH_LONG).show();
+        }else
+        {
+            Intent intent = new Intent(RegisterPage.this, HomePage.class);
+            startActivity(intent);
+        }
+
         Backendless.initApp( this, APP_ID, SECRET_KEY, VERSION);
-        //Button registerButton = (Button) findViewById(R.id.sendregister);
-
-
 
         code = generatecode();
 
@@ -123,12 +129,6 @@ public class RegisterPage extends AppCompatActivity {
                                     public void handleResponse(TableCode response) {
 
                                         Intent it = new Intent(RegisterPage.this, HomePage.class);
-                                        //it.putExtra(EXTRA_MESSAGE,nomhouse);
-
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("role",admin);
-                                        bundle.putString("housename",nomhouse);
-                                        it.putExtras(bundle);
                                         startActivity(it);
                                     //    Toast.makeText(RegisterPage.this, "Contact sauvegardé : ", Toast.LENGTH_SHORT).show();
                                     }
