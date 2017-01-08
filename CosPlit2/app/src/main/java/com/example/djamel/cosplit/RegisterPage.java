@@ -1,29 +1,29 @@
 package com.example.djamel.cosplit;
 
-    import android.content.Intent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-    import android.view.ViewGroup;
-    import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-    import android.widget.TextView;
-    import android.widget.Toast;
+import android.widget.TextView;
+import android.widget.Toast;
 
-    import com.backendless.Backendless;
-    import com.backendless.BackendlessCollection;
-    import com.backendless.BackendlessUser;
-    import com.backendless.async.callback.AsyncCallback;
-    import com.backendless.async.callback.BackendlessCallback;
-    import com.backendless.exceptions.BackendlessFault;
-    import com.backendless.persistence.BackendlessSerializer;
-    import com.beardedhen.androidbootstrap.BootstrapButton;
-    import com.beardedhen.androidbootstrap.TypefaceProvider;
+import com.backendless.Backendless;
+import com.backendless.BackendlessCollection;
+import com.backendless.BackendlessUser;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.async.callback.BackendlessCallback;
+import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessSerializer;
+import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 
-    import java.util.Iterator;
-    import java.util.Random;
+import java.util.Iterator;
+import java.util.Random;
 
-    import javax.xml.validation.Validator;
+import javax.xml.validation.Validator;
 
 public class RegisterPage extends AppCompatActivity {
     int code,idhouse;
@@ -73,7 +73,7 @@ public class RegisterPage extends AppCompatActivity {
         btnInsert1=(BootstrapButton) findViewById(R.id.sendregister);
         sendviewRegister();
 
-         }
+    }
 
 
     //fonction pour création Register et insertion dans la base de données:
@@ -128,9 +128,9 @@ public class RegisterPage extends AppCompatActivity {
                                     @Override
                                     public void handleResponse(TableCode response) {
 
-                                        Intent it = new Intent(RegisterPage.this, HomePage.class);
+                                        Intent it = new Intent(RegisterPage.this, LoginMember.class);
                                         startActivity(it);
-                                    //    Toast.makeText(RegisterPage.this, "Contact sauvegardé : ", Toast.LENGTH_SHORT).show();
+                                        //    Toast.makeText(RegisterPage.this, "Contact sauvegardé : ", Toast.LENGTH_SHORT).show();
                                     }
 
                                 });
