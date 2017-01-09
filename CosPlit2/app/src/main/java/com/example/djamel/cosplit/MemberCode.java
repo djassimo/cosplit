@@ -64,7 +64,7 @@ public class MemberCode extends AppCompatActivity {
         sendviewRegister();
 
     }
-//lors du clic sur le bouton physique de retour
+    //lors du clic sur le bouton physique de retour
     @Override
     public void onBackPressed() {
         Intent i = new Intent(MemberCode.this, MainPage.class);
@@ -91,17 +91,17 @@ public class MemberCode extends AppCompatActivity {
                                 nommaison ="";
                                 String IdHome = "";
 
-                                    while (iterator.hasNext()) {
+                                while (iterator.hasNext()) {
 
-                                        TableCode tableCode = iterator.next();
+                                    TableCode tableCode = iterator.next();
 
-                                        if (code1 == (tableCode.getCode())) {
-                                            nommaison = tableCode.getNomhouse();
-                                            IdHome = tableCode.getFk_admin();
+                                    if (code1 == (tableCode.getCode())) {
+                                        nommaison = tableCode.getNomhouse();
+                                        IdHome = tableCode.getFk_admin();
 
-                                           // Toast.makeText(MemberCode.this, "le bon code est la!!" + nommaison, Toast.LENGTH_LONG).show();
-                                            }
+                                        // Toast.makeText(MemberCode.this, "le bon code est la!!" + nommaison, Toast.LENGTH_LONG).show();
                                     }
+                                }
 
                                 if(nommaison.toString() !=""){
 
@@ -128,6 +128,11 @@ public class MemberCode extends AppCompatActivity {
                                             TempDialog.dismiss();
 
                                             Intent it = new Intent(MemberCode.this, MemberRegister.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("role",user);
+                                            bundle.putString("housename",nommaison);
+                                            bundle.putInt("code",code1);
+                                            it.putExtras(bundle);
                                             startActivity(it);
                                             //Toast.makeText(MemberCode.this, "votre maison est  !!" + nommaison, Toast.LENGTH_LONG).show();
                                         }
@@ -145,17 +150,18 @@ public class MemberCode extends AppCompatActivity {
                                     CDT = new CountDownTimer(5000, 1000)
                                     {
 
-                                    public void onTick(long millisUntilFinished)
-                                    {
-                                        TempDialog.setMessage("Please wait.." );
+                                        public void onTick(long millisUntilFinished)
+                                        {
+                                            TempDialog.setMessage("Please wait.." );
 
-                                    }
+                                        }
 
-                                        public void onFinish() {
+                                        public void onFinish()
+                                        {
                                             TempDialog.dismiss();
                                             Toast.makeText(MemberCode.this, "code FAUX !!", Toast.LENGTH_LONG).show();
                                         }
-                                }.start();
+                                    }.start();
 
 
                                 }

@@ -52,7 +52,7 @@ public class MemberRegister extends AppCompatActivity {
         code1= bundle.getInt("code");
 
 
-        //Toast.makeText(MemberRegister.this,"votre role reste tjrs"+rolemsg,Toast.LENGTH_LONG).show();
+        Toast.makeText(MemberRegister.this,"votre code est"+code1,Toast.LENGTH_LONG).show();
         //Toast.makeText(MemberRegister.this,"maison importé"+message1,Toast.LENGTH_LONG).show();
 
         Editname1 = (EditText) findViewById(R.id.Name1);
@@ -91,7 +91,7 @@ public class MemberRegister extends AppCompatActivity {
                             @Override
                             public void handleResponse(BackendlessUser response) {
                                 BackendlessSerializer.serializeUserProperties(backendlessUser);
-                                String objectId = backendlessUser.getObjectId().toString();
+                                String objectId = backendlessUser.getUserId().toString();
                                 //Toast.makeText(MemberRegister.this,"assurer role"+user,Toast.LENGTH_LONG).show();
                                 //Toast.makeText(MemberRegister.this,"assurer home"+" "+message1,Toast.LENGTH_LONG).show();
                                 Intent it = new Intent(MemberRegister.this, HomePage.class);

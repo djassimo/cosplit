@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,11 +57,11 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     BootstrapButton button3, button2;
     String nomhouse, idobj, idallusers, idusers;
     RelativeLayout layout = null;
-    int codeHome, code1;
+    public int codeHome, code1,codeall,x;
     ListView listView;
 
 
-    //BackendlessUser backendlessUser = new BackendlessUser();
+    BackendlessUser backendlessUser = new BackendlessUser();
 
     protected void onCreate(Bundle savedInstanceState) {
         Backendless.initApp(this, APP_ID, SECRET_KEY, VERSION);
@@ -147,64 +148,28 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         //  button2 = (BootstrapButton) findViewById(R.id.button4);
 
 
-          RetrevieUsers();
+
         //Toast.makeText(HomePage.this, "code1 !!" + x, Toast.LENGTH_LONG).show();
         RetrieveData();
         //sendviewRegister();
+        x = RetrieveUsers();
+        String y = Integer.toString(x);
+       // Toast.makeText(HomePage.this, "iduser!!" + y, Toast.LENGTH_LONG).show();
     }
 
 
     //trouver les useres maisons
-public void RetrevieUsers(){
-    Backendless.Data.of(BackendlessUser.class).find
-            (new AsyncCallback<BackendlessCollection<BackendlessUser>>() {
-                 @Override
-                 public void handleResponse(BackendlessCollection<BackendlessUser> users) {
-                     Iterator<BackendlessUser> userIterator = users.getCurrentPage().iterator();
-
-                     while (userIterator.hasNext()) {
-                         BackendlessUser user = userIterator.next();
-                         //Toast.makeText(HomePage.this, "codehome !!" + codeHome, Toast.LENGTH_LONG).show();
-                         //Toast.makeText(HomePage.this, "code1 !!" + code1, Toast.LENGTH_LONG).show();
-                         idallusers = user.getUserId();
-                         //Toast.makeText(HomePage.this, "iduser111!!" + idusers, Toast.LENGTH_LONG).show();
-                         //if (idallusers == idusers) {
-                             //Toast.makeText(HomePage.this, "iduser2222!!" + idusers, Toast.LENGTH_LONG).show();
-                             //user = userIterator.next();
-                             //System.out.println( "Email - " + user.getEmail() );
-                             //System.out.println( "User ID - " + user.getUserId() );
-                             //System.out.println("code maison - " + user.getProperty("role"));
-                             System.out.println("nom du membre - " + user.getProperty("name"));
-                             //System.out.println("============================");
-                             //Toast.makeText(HomePage.this, "l'utilisateur est !!"+user.setProperty("name"), Toast.LENGTH_LONG).show();
-                         //}
-                     }
-
-                  //   Toast.makeText(HomePage.this, "iduser111!!" + idusers, Toast.LENGTH_LONG).show();
-
-                 }
-
-                 @Override
-                 public void handleFault(BackendlessFault backendlessFault) {
-                     System.out.println("Server reported an error - " + backendlessFault.getMessage());
-                 }
-
-             }
-            );
-    Toast.makeText(HomePage.this, "iduser111!!" + idusers, Toast.LENGTH_LONG).show();
-
-}
 
     // methode de recuperation des donnees des tables
     public void RetrieveData() {
 
         // Toast.makeText(HomePage.this, "iduser!!" + iduss, Toast.LENGTH_LONG).show();
-
-
         //recupere id de current user :
+
         BackendlessUser curentuser = Backendless.UserService.CurrentUser();
         if (curentuser != null) {
-            idobj = curentuser.getObjectId();
+            idobj = curentuser.getUserId();
+            String idalluserss = backendlessUser.getUserId();
 
             AsyncCallback<BackendlessCollection<TableCodeMaison>> callback = new AsyncCallback<BackendlessCollection<TableCodeMaison>>() {
                 @Override
@@ -214,19 +179,53 @@ public void RetrevieUsers(){
 
                     while (iterator.hasNext()) {
 
-                        TableCodeMaison tableCode = iterator.next();
-                        idusers = tableCode.getIduser();
+                        final TableCodeMaison tableCode = iterator.next();
+                        //idusers = tableCode.getIduser();
+                        codeall = tableCode.getIdhouse();
 
                         if (idobj.equals(tableCode.getIduser())) {
                             codeHome = tableCode.getIdhouse();
-
+                            //Toast.makeText(HomePage.this, "codehome !!" + codeHome, Toast.LENGTH_LONG).show();
                         }
 
+                        idusers = tableCode.getIduser();
 
-                       //Toast.makeText(HomePage.this, "iduser!!" + idusers, Toast.LENGTH_LONG).show();
+                       // Toast.makeText(HomePage.this, "idusers !!" + idusers, Toast.LENGTH_LONG).show();
 
+
+
+
+
+                        Backendless.Data.of(BackendlessUser.class).find
+                                (new AsyncCallback<BackendlessCollection<BackendlessUser>>() {
+                                     @Override
+                                     public void handleResponse(BackendlessCollection<BackendlessUser> users) {
+                                         Iterator<BackendlessUser> userIterator = users.getCurrentPage().iterator();
+
+                                         while (userIterator.hasNext()) {
+                                             BackendlessUser user = userIterator.next();
+                                             //Toast.makeText(HomePage.this, "codehome !!" + codeHome, Toast.LENGTH_LONG).show();
+                                             //Toast.makeText(HomePage.this, "codeall !!" + codeall, Toast.LENGTH_LONG).show();
+                                             if (codeHome == codeall) {
+                                                 //Toast.makeText(HomePage.this, "codehome !!" + codeHome, Toast.LENGTH_LONG).show();
+                                                 // Toast.makeText(HomePage.this, "code1 !!" +idusers, Toast.LENGTH_LONG).show();
+                                                 //idallusers = user.getUserId();
+                                                 String nameuser = user.getProperty("name").toString();
+
+                                                 //Toast.makeText(HomePage.this, "l'utilisateur est !!" + nameuser, Toast.LENGTH_LONG).show();
+                                             }
+                                         }
+
+                                     }
+
+                                     @Override
+                                     public void handleFault(BackendlessFault backendlessFault) {
+                                         System.out.println("Server reported an error - " + backendlessFault.getMessage());
+                                     }
+
+                                 }
+                                );
                     }
-
 
                     AsyncCallback<BackendlessCollection<TableCode>> callback1 = new AsyncCallback<BackendlessCollection<TableCode>>() {
                         @Override
@@ -240,33 +239,22 @@ public void RetrevieUsers(){
                                 if (codeHome == (tableCode.getCode())) {
                                     code1 = tableCode.getCode();
                                     nomhouse = tableCode.getNomhouse();
-
                                 }
+
                             }
                             if (nomhouse.toString() != "") {
-
                                 TextView textview = (TextView) findViewById(R.id.textView6);
                                 textview.setText(nomhouse);
-
                             }
-                            //Toast.makeText(HomePage.this, "iduser1111!!" + idusers, Toast.LENGTH_LONG).show();
-                            //Toast.makeText(HomePage.this, "iduser!!" + idallusers, Toast.LENGTH_LONG).show();
-
                         }
-
-
 
                         @Override
                         public void handleFault(BackendlessFault fault) {
                         }
-
-
                     };
                     Backendless.Data.of(TableCode.class).find(callback1);
                     //Toast.makeText(HomePage.this, "le code home aaa !!"+codeHome, Toast.LENGTH_LONG).show();
-
                 }
-
 
                 @Override
                 public void handleFault(BackendlessFault fault) {
@@ -371,6 +359,42 @@ public void RetrevieUsers(){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+
+    public int  RetrieveUsers() {
+
+        BackendlessUser curentuser = Backendless.UserService.CurrentUser();
+        if (curentuser != null) {
+            idobj = curentuser.getUserId();
+
+            AsyncCallback<BackendlessCollection<TableCodeMaison>> callback = new AsyncCallback<BackendlessCollection<TableCodeMaison>>() {
+                @Override
+                public void handleResponse(BackendlessCollection<TableCodeMaison> response) {
+                    Iterator<TableCodeMaison> iterator = response.getCurrentPage().iterator();
+
+                    while (iterator.hasNext()) {
+
+                        final TableCodeMaison tableCode = iterator.next();
+                        //idusers = tableCode.getIduser();
+                        codeall = tableCode.getIdhouse();
+
+                        if (idobj.equals(tableCode.getIduser())) {
+                            codeHome = tableCode.getIdhouse();
+                        }
+                        //Toast.makeText(HomePage.this, "iduser!!" + codeHome, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void handleFault(BackendlessFault fault) {
+                }
+            };
+            Backendless.Data.of(TableCodeMaison.class).find(callback);
+        }
+        Toast.makeText(HomePage.this, "iduser!!" + codeHome, Toast.LENGTH_LONG).show();
+return codeHome;
     }
 
 

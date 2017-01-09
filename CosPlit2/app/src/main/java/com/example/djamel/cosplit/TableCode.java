@@ -6,11 +6,6 @@ public class TableCode {
     private int code;
     private String nomhouse;
     private String fk_admin;
-    public String objectId;
-
-
-
-
 
     public TableCode(){}
 
@@ -30,7 +25,6 @@ public class TableCode {
     public String getFk_admin(){
         return fk_admin;
     }
-
 
 
     public void setCode( int code )

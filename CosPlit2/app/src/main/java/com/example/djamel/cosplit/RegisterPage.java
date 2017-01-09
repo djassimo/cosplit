@@ -116,10 +116,10 @@ public class RegisterPage extends AppCompatActivity {
                             {
                                 //récupération idobject et l"insertion dans la table Tablecode
                                 BackendlessSerializer.serializeUserProperties(backendlessUser);
-                                String objectId =backendlessUser.getObjectId().toString();
+                                String objectId =backendlessUser.getUserId().toString();
 
                                 admin = backendlessUser.getProperty("role").toString();
-                                //Toast.makeText(RegisterPage.this, "ma masison est : "+nomhouse, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterPage.this, "ma masison est : "+nomhouse, Toast.LENGTH_SHORT).show();
 
 
                                 //Toast.makeText(RegisterPage.this, "idobject est : "+name, Toast.LENGTH_SHORT).show();

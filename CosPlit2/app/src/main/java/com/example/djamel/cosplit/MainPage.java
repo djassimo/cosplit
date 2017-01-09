@@ -44,8 +44,9 @@ public class MainPage extends AppCompatActivity {
 
         if(Backendless.UserService.loggedInUser()=="")
         {
-            Toast.makeText(MainPage.this,"imhere",Toast.LENGTH_LONG).show();
-        }else
+
+        }
+        else
         {
 
             Intent intent = new Intent(MainPage.this, HomePage.class);
