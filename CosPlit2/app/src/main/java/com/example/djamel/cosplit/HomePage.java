@@ -38,7 +38,9 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.async.callback.BackendlessCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessDataQuery;
 import com.backendless.persistence.BackendlessSerializer;
+import com.backendless.persistence.QueryOptions;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
 
@@ -55,10 +57,11 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     public static final String VERSION = "v1";
 
     BootstrapButton button3, button2;
-    String nomhouse, idobj, idallusers, idusers;
+    String nomhouse, idobj, idallusers, idusers,u;
     RelativeLayout layout = null;
-    public int codeHome, code1,codeall,x;
+    public int codeHome, code1, codeall, x;
     ListView listView;
+    TableCodeMaison tableCodeMaison = new TableCodeMaison();
 
 
     BackendlessUser backendlessUser = new BackendlessUser();
@@ -147,14 +150,11 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         //  button2 = (BootstrapButton) findViewById(R.id.button4);
 
-
-
-        //Toast.makeText(HomePage.this, "code1 !!" + x, Toast.LENGTH_LONG).show();
         RetrieveData();
-        //sendviewRegister();
-        x = RetrieveUsers();
-        String y = Integer.toString(x);
-       // Toast.makeText(HomePage.this, "iduser!!" + y, Toast.LENGTH_LONG).show();
+
+        RetrieveUsers();
+
+        // Toast.makeText(HomePage.this, "iduser!!" + y, Toast.LENGTH_LONG).show();
     }
 
 
@@ -190,10 +190,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
                         idusers = tableCode.getIduser();
 
-                       // Toast.makeText(HomePage.this, "idusers !!" + idusers, Toast.LENGTH_LONG).show();
-
-
-
+                        // Toast.makeText(HomePage.this, "idusers !!" + idusers, Toast.LENGTH_LONG).show();
 
 
                         Backendless.Data.of(BackendlessUser.class).find
@@ -362,8 +359,41 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     }
 
 
+    public void RetrieveUsers() {
 
-    public int  RetrieveUsers() {
+        QueryOptions queryOptions = new QueryOptions();
+        BackendlessDataQuery query = new BackendlessDataQuery(queryOptions);
+
+
+        String whereClause = nomhouse;
+        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+        dataQuery.setWhereClause(whereClause);
+
+
+// Asynchronous API:
+// ***********************************************************
+        Backendless.Persistence.of("TableCodeMaison").find(dataQuery,
+                new AsyncCallback<BackendlessCollection<Map>>() {
+                    @Override
+                    public void handleResponse(BackendlessCollection<Map> foundusers) {
+
+                        int x = foundusers.getData().size();
+
+                        u= tableCodeMaison.getIduser();
+                        Toast.makeText(HomePage.this, "la table est  !!" + x, Toast.LENGTH_LONG).show();
+
+                        // every loaded object from the "Contact" table is now an individual java.util.Map
+                    }
+
+                    @Override
+                    public void handleFault(BackendlessFault fault) {
+                        // an error has occurred, the error code can be retrieved with fault.getCode()
+                    }
+                });
+
+
+        /*
+
 
         BackendlessUser curentuser = Backendless.UserService.CurrentUser();
         if (curentuser != null) {
@@ -395,6 +425,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         }
         Toast.makeText(HomePage.this, "iduser!!" + codeHome, Toast.LENGTH_LONG).show();
 return codeHome;
+    */
     }
 
 

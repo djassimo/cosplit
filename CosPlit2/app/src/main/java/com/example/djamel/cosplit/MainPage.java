@@ -35,32 +35,31 @@ public class MainPage extends AppCompatActivity {
     public static final String VERSION = "v1";
 
     public View view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.activity_main_page);
+
         Backendless.initApp(this, APP_ID, SECRET_KEY, VERSION);
 
-        if(Backendless.UserService.loggedInUser()=="")
-        {
+        if (Backendless.UserService.loggedInUser() == "") {
 
-        }
-        else
-        {
+        } else {
 
             Intent intent = new Intent(MainPage.this, HomePage.class);
             startActivity(intent);
         }
     }
+
     @Override
-    public void onBackPressed()  {
+    public void onBackPressed() {
 
         Log.i("DATA", "Hit main page onBackPressed()");
         super.onBackPressed();
         //finish();
         this.finish();
-        
 
     }
 
@@ -69,11 +68,13 @@ public class MainPage extends AppCompatActivity {
         Intent intent = new Intent(MainPage.this, SignupActivity.class);
         startActivity(intent);
     }
+
     public void joinHouse(View view) {
         //Toast.makeText(MainPage.this,"idregister,nn444444nn:",Toast.LENGTH_LONG).show();
         Intent intent = new Intent(MainPage.this, MemberCode.class);
         startActivity(intent);
     }
+
     public void LoginMember(View view) {
         //Toast.makeText(MainPage.this,"idregister,nn444444nn:",Toast.LENGTH_LONG).show();
         Intent intent = new Intent(MainPage.this, LoginMember.class);
