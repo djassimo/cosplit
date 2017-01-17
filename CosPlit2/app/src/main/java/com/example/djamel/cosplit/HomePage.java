@@ -56,14 +56,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     public static final String SECRET_KEY = "279243A4-BDBD-317E-FFB9-BF9298751000";
     public static final String VERSION = "v1";
 
-    BootstrapButton button3, button2;
-    String nomhouse, idobj, idallusers, idusers,u;
+    //BootstrapButton button3, button2;
+    String nomhouse, idobj, nomuser, idusers, u;
     RelativeLayout layout = null;
-    public int codeHome, code1, codeall, x;
+    int codeHome, code1, codeall;
     ListView listView;
     TableCodeMaison tableCodeMaison = new TableCodeMaison();
-
-
     BackendlessUser backendlessUser = new BackendlessUser();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,40 +71,37 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         TypefaceProvider.registerDefaultIconSets();
         setContentView(R.layout.home_activity_page);
 
+        AddCostMenuFragment addcost = new AddCostMenuFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.home_activity_page,addcost).commit();
 
         listView = (ListView) findViewById(android.R.id.list);
 
-        final String[] names = new String[]{"Beer", "Burger",
-                "cake", "Cake1"};
+        BackendlessUser curentuser = Backendless.UserService.CurrentUser();
+        if (curentuser != null) {
+            nomuser = curentuser.getProperty("name").toString();
+        }
 
-        final String[] prix = {"18", "47", "63", "4"};
-
-        final int[] images = {R.drawable.beer, R.drawable.burger,
-                R.drawable.cake, R.drawable.cake_1};
-
+        final String[] names = new String[]{nomuser};
+        final int[] images = {R.drawable.user};
 
         ArrayAdapter<String> adapter = new
                 ArrayAdapter<String>(HomePage.this,
-                        R.layout.row_layout, prix) {
+                        R.layout.row_layout, names) {
 
                     @Override
-                    public View getView(int position, View convertView,
-                                        ViewGroup parent) {
+                    public View getView(int position, View convertView, ViewGroup parent) {
 
                         if (convertView == null) {
                             convertView = LayoutInflater.from(getContext()).
                                     inflate(R.layout.row_layout, parent, false);
                         }
 
-
                         ((ImageView) convertView.findViewById(R.id.imageView)).setImageResource(images[position]);
 
                         ((TextView) convertView.findViewById(R.id.textViewName)).setText(names[position]);
 
-                        ((TextView) convertView.findViewById(R.id.textViewPrix)).setText((prix[position]) + "€");
                         return convertView;
                     }
-
                 };
         listView.setAdapter(adapter);
 
@@ -116,19 +111,11 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position,
                                     long id) {
-                //Intent intent = new Intent(MainActivity.this, Detail.class);
+                /*Intent intent = new Intent(HomePage.this, HomePage.class);
+                startActivity(intent);
+                Toast.makeText(HomePage.this, "le code home aaa !!", Toast.LENGTH_LONG).show();*/
 
                 String cat = (String) parent.getItemAtPosition(position);
-                //String cat1 = (String) parent.getItemAtPosition(position);
-
-/*
-                        Bundle bundle= new Bundle();
-                        //String message = cat;
-                        //Log.i("message = ",cat);
-                        bundle.putString("item",cat);
-                        //bundle.putString("item1",cat1);
-                        intent.putExtras(bundle);
-                        startActivity(intent);*/
             }
         });
 
@@ -147,25 +134,15 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        //  button2 = (BootstrapButton) findViewById(R.id.button4);
-
         RetrieveData();
+       // RetrieveUsers();
 
-        RetrieveUsers();
-
-        // Toast.makeText(HomePage.this, "iduser!!" + y, Toast.LENGTH_LONG).show();
     }
-
-
-    //trouver les useres maisons
 
     // methode de recuperation des donnees des tables
     public void RetrieveData() {
 
-        // Toast.makeText(HomePage.this, "iduser!!" + iduss, Toast.LENGTH_LONG).show();
         //recupere id de current user :
-
         BackendlessUser curentuser = Backendless.UserService.CurrentUser();
         if (curentuser != null) {
             idobj = curentuser.getUserId();
@@ -176,22 +153,16 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                 public void handleResponse(BackendlessCollection<TableCodeMaison> response) {
                     Iterator<TableCodeMaison> iterator = response.getCurrentPage().iterator();
 
-
                     while (iterator.hasNext()) {
 
                         final TableCodeMaison tableCode = iterator.next();
-                        //idusers = tableCode.getIduser();
                         codeall = tableCode.getIdhouse();
 
                         if (idobj.equals(tableCode.getIduser())) {
                             codeHome = tableCode.getIdhouse();
-                            //Toast.makeText(HomePage.this, "codehome !!" + codeHome, Toast.LENGTH_LONG).show();
                         }
 
                         idusers = tableCode.getIduser();
-
-                        // Toast.makeText(HomePage.this, "idusers !!" + idusers, Toast.LENGTH_LONG).show();
-
 
                         Backendless.Data.of(BackendlessUser.class).find
                                 (new AsyncCallback<BackendlessCollection<BackendlessUser>>() {
@@ -201,25 +172,17 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
                                          while (userIterator.hasNext()) {
                                              BackendlessUser user = userIterator.next();
-                                             //Toast.makeText(HomePage.this, "codehome !!" + codeHome, Toast.LENGTH_LONG).show();
-                                             //Toast.makeText(HomePage.this, "codeall !!" + codeall, Toast.LENGTH_LONG).show();
-                                             if (codeHome == codeall) {
-                                                 //Toast.makeText(HomePage.this, "codehome !!" + codeHome, Toast.LENGTH_LONG).show();
-                                                 // Toast.makeText(HomePage.this, "code1 !!" +idusers, Toast.LENGTH_LONG).show();
-                                                 //idallusers = user.getUserId();
-                                                 String nameuser = user.getProperty("name").toString();
 
-                                                 //Toast.makeText(HomePage.this, "l'utilisateur est !!" + nameuser, Toast.LENGTH_LONG).show();
+                                             if (codeHome == codeall) {
+                                                 String nameuser = user.getProperty("name").toString();
                                              }
                                          }
-
                                      }
 
                                      @Override
                                      public void handleFault(BackendlessFault backendlessFault) {
                                          System.out.println("Server reported an error - " + backendlessFault.getMessage());
                                      }
-
                                  }
                                 );
                     }
@@ -237,7 +200,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                                     code1 = tableCode.getCode();
                                     nomhouse = tableCode.getNomhouse();
                                 }
-
                             }
                             if (nomhouse.toString() != "") {
                                 TextView textview = (TextView) findViewById(R.id.textView6);
@@ -262,14 +224,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
     }
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            //super.onBackPressed();
             Intent a = new Intent(Intent.ACTION_MAIN);
             a.addCategory(Intent.CATEGORY_HOME);
             a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -279,16 +239,13 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -305,13 +262,12 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-
-            Intent it = new Intent(HomePage.this, LoginMember.class);
-            startActivity(it);
-        } else if (id == R.id.nav_ask_for_money) {
-            Intent intent = new Intent(HomePage.this, AskForMoney.class);
-            startActivity(intent);
+        if (id == R.id.nav_ask_for_money) {
+            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+            sharingIntent.setType("text/html");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml("Bonjour,\n " +
+                    "J'ai besoin de 100 €:" ));
+            startActivity(Intent.createChooser(sharingIntent, "Share using"));
 
         } else if (id == R.id.nav_edit_profile) {
             Intent intent = new Intent(HomePage.this, EditProfilePage.class);
@@ -352,7 +308,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
         } else if (id == R.id.nav_send) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -363,8 +318,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
         QueryOptions queryOptions = new QueryOptions();
         BackendlessDataQuery query = new BackendlessDataQuery(queryOptions);
-
-
         String whereClause = nomhouse;
         BackendlessDataQuery dataQuery = new BackendlessDataQuery();
         dataQuery.setWhereClause(whereClause);
@@ -379,7 +332,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 
                         int x = foundusers.getData().size();
 
-                        u= tableCodeMaison.getIduser();
+                        u = tableCodeMaison.getIduser();
                         Toast.makeText(HomePage.this, "la table est  !!" + x, Toast.LENGTH_LONG).show();
 
                         // every loaded object from the "Contact" table is now an individual java.util.Map
@@ -390,7 +343,6 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
                         // an error has occurred, the error code can be retrieved with fault.getCode()
                     }
                 });
-
 
         /*
 

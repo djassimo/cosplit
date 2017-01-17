@@ -77,7 +77,6 @@ public class LoginMember extends AppCompatActivity {
 
 
                                     TempDialog = new ProgressDialog(LoginMember.this);
-                                    //TempDialog.setMessage("Please wait...");
                                     TempDialog.setCancelable(false);
                                     TempDialog.setProgress(5);
                                     TempDialog.show();
@@ -102,7 +101,6 @@ public class LoginMember extends AppCompatActivity {
                             @Override
                             public void handleFault(BackendlessFault fault) {
                                 TempDialog = new ProgressDialog(LoginMember.this);
-                                //TempDialog.setMessage("Please wait...");
                                 TempDialog.setCancelable(false);
                                 TempDialog.setProgress(5);
                                 TempDialog.show();

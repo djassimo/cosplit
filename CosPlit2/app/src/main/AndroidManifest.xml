@@ -28,7 +28,10 @@
         <activity android:name=".MemberCode" />
         <activity android:name=".AskForMoney" />
         <activity android:name=".EditProfilePage" />
-        <activity android:name=".AddCost"></activity>
+        <activity android:name=".AddCost">
+        </activity>
+        <activity android:name=".CostMenu"/>
+
     </application>
 
 </manifest>

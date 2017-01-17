@@ -13,27 +13,12 @@
     tools:context="com.example.djamel.cosplit.HomePage"
     tools:openDrawer="start">
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
-        android:gravity="center"
-        android:textAppearance="@style/defaultTextView"
-        android:textColor="@color/colorPrimary"
-        android:textSize="34sp"
-        android:textStyle="normal|bold"
-        android:typeface="normal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignTop="@+id/textView6">
+        android:layout_below="@+id/textView6">
     </ListView>
 
     <android.support.v4.widget.DrawerLayout
@@ -57,6 +42,21 @@
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="61dp"
+        android:gravity="center"
+        android:textAppearance="@style/defaultTextView"
+        android:textColor="@color/colorPrimary"
+        android:textSize="34sp"
+        android:textStyle="normal|bold"
+        android:typeface="normal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

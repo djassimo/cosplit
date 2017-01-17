@@ -72,7 +72,6 @@ public class RegisterPage extends AppCompatActivity {
         Editname4=(EditText) findViewById(R.id.Name4);
         btnInsert1=(BootstrapButton) findViewById(R.id.sendregister);
         sendviewRegister();
-
     }
 
 
@@ -102,11 +101,6 @@ public class RegisterPage extends AppCompatActivity {
                         backendlessUser.setEmail(email);
                         backendlessUser.setProperty("lastname",prenom);
                         backendlessUser.setProperty("role",admin);
-
-                        //backendlessUser.setProperty("housename",nomhouse);
-                        //backendlessUser.setProperty("code",code);
-
-
 
 
                         Backendless.UserService.register(backendlessUser, new AsyncCallback<BackendlessUser>()

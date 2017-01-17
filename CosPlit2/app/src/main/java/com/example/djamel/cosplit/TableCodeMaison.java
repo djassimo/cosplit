@@ -6,29 +6,21 @@ package com.example.djamel.cosplit;
 
 public class TableCodeMaison {
 
-
     private int idhouse;
     private String iduser;
-
-
-
 
     public TableCodeMaison(){}
 
     public TableCodeMaison( int idhouse,String iduser)
     {
-
         this.idhouse = idhouse;
         this.iduser = iduser;
-
     }
-
 
     public int getIdhouse()    {return idhouse; }
     public String getIduser(){
         return iduser;
     }
-
 
     public void setIdhouse( int idhouse )
     {

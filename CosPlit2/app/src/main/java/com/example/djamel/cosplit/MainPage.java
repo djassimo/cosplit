@@ -33,7 +33,6 @@ public class MainPage extends AppCompatActivity {
     public static final String APP_ID = "96BF9E34-383E-89AC-FFCC-8031E93B2400";
     public static final String SECRET_KEY = "279243A4-BDBD-317E-FFB9-BF9298751000";
     public static final String VERSION = "v1";
-
     public View view;
 
     @Override
@@ -55,12 +54,8 @@ public class MainPage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-        Log.i("DATA", "Hit main page onBackPressed()");
         super.onBackPressed();
-        //finish();
         this.finish();
-
     }
 
     public void signup(View view) {
@@ -80,6 +75,4 @@ public class MainPage extends AppCompatActivity {
         Intent intent = new Intent(MainPage.this, LoginMember.class);
         startActivity(intent);
     }
-
-
 }

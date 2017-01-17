@@ -38,9 +38,9 @@ public class MemberCode extends AppCompatActivity {
     CountDownTimer CDT;
     String user = "isuser",nommaison;
 
-    private int progressBarStatus = 0;
-    private Handler progressBarbHandler = new Handler();
-    private long fileSize = 0;
+    //private int progressBarStatus = 0;
+    //private Handler progressBarbHandler = new Handler();
+    //private long fileSize = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,11 @@ public class MemberCode extends AppCompatActivity {
 
         //initialisation de backendless
         Backendless.initApp(this, APP_ID, SECRET_KEY, VERSION);
+
         Editname1 = (BootstrapEditText) findViewById(R.id.Name2);
         btnInsert1 = (BootstrapButton) findViewById(R.id.sendregister);
+
+        //verification si l'utilisateur est déja en session connecté ou pas :
         if(Backendless.UserService.loggedInUser()=="")
         {
             //Toast.makeText(MainPage.this,"imhere",Toast.LENGTH_LONG).show();
@@ -60,7 +63,6 @@ public class MemberCode extends AppCompatActivity {
             Intent intent = new Intent(MemberCode.this, HomePage.class);
             startActivity(intent);
         }
-
         sendviewRegister();
 
     }
@@ -84,49 +86,35 @@ public class MemberCode extends AppCompatActivity {
                         AsyncCallback<BackendlessCollection<TableCode>> callback = new AsyncCallback<BackendlessCollection<TableCode>>() {
                             @Override
                             public void handleResponse(BackendlessCollection<TableCode> tablecode) {
-
-
                                 Iterator<TableCode> iterator = tablecode.getCurrentPage().iterator();
 
                                 nommaison ="";
                                 String IdHome = "";
 
                                 while (iterator.hasNext()) {
-
                                     TableCode tableCode = iterator.next();
-
                                     if (code1 == (tableCode.getCode())) {
                                         nommaison = tableCode.getNomhouse();
                                         IdHome = tableCode.getFk_admin();
-
-                                        // Toast.makeText(MemberCode.this, "le bon code est la!!" + nommaison, Toast.LENGTH_LONG).show();
                                     }
                                 }
 
                                 if(nommaison.toString() !=""){
-
-
-
-
                                     TempDialog = new ProgressDialog(MemberCode.this);
-                                    //TempDialog.setMessage("Please wait...");
                                     TempDialog.setCancelable(false);
                                     TempDialog.setProgress(5);
                                     TempDialog.show();
 
                                     CDT = new CountDownTimer(5000, 1000)
                                     {
-
                                         public void onTick(long millisUntilFinished)
                                         {
                                             TempDialog.setMessage("Please wait.." );
-
                                         }
 
                                         public void onFinish()
                                         {
                                             TempDialog.dismiss();
-
                                             Intent it = new Intent(MemberCode.this, MemberRegister.class);
                                             Bundle bundle = new Bundle();
                                             bundle.putString("role",user);
@@ -134,26 +122,20 @@ public class MemberCode extends AppCompatActivity {
                                             bundle.putInt("code",code1);
                                             it.putExtras(bundle);
                                             startActivity(it);
-                                            //Toast.makeText(MemberCode.this, "votre maison est  !!" + nommaison, Toast.LENGTH_LONG).show();
                                         }
                                     }.start();
-
-
                                 }
                                 else{
                                     TempDialog = new ProgressDialog(MemberCode.this);
-                                    //TempDialog.setMessage("Please wait...");
                                     TempDialog.setCancelable(false);
                                     TempDialog.setProgress(5);
                                     TempDialog.show();
 
                                     CDT = new CountDownTimer(5000, 1000)
                                     {
-
                                         public void onTick(long millisUntilFinished)
                                         {
                                             TempDialog.setMessage("Please wait.." );
-
                                         }
 
                                         public void onFinish()
@@ -163,7 +145,6 @@ public class MemberCode extends AppCompatActivity {
                                         }
                                     }.start();
 
-
                                 }
                             }
                             @Override
@@ -171,14 +152,10 @@ public class MemberCode extends AppCompatActivity {
 
                             }
                         };
-
                         Backendless.Data.of(TableCode.class).find(callback);
-
-
                     }
 
                 }
-
         );
     }
 
